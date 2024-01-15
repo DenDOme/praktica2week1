@@ -6,11 +6,22 @@
     <title>Socks</title>
     <script defer src="./js/vue.js"></script>
     <script defer src="./js/main.js"></script>
+    <link rel="stylesheet" href="./assets/vmSocks-green-onWhite.jpg">
 </head>
 <body>
     <div id="app">
-        <h1> {{ product }}</h1>
-        <p> {{ desc }}</p>
-    </div>
+
+        <div class="product">
+     
+            <div class="product-image">
+                <img v-bind:alt="altText" v-bind:src="image"/>
+            </div>
+     
+            <div class="product-info">
+                <h1>{{ product }}</h1>
+            </div>
+            <a v-bind:href="link"> {{ linkText }}</a>
+        </div>
+     </div>
 </body>
 </html>
