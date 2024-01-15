@@ -6,7 +6,7 @@
     <title>Socks</title>
     <script defer src="./js/vue.js"></script>
     <script defer src="./js/main.js"></script>
-    <link rel="stylesheet" href="./assets/vmSocks-green-onWhite.jpg">
+    <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
     <div id="app">
@@ -19,16 +19,19 @@
      
             <div class="product-info">
                 <h1>{{ product }}</h1>
-                <p v-show="onSale">On Sale</p>
+                <p v-if="inStock">In stock</p>
+                <p v-else :class="{ outOfStock: !inStock }">Out of Stock</p>
                 <ul>
                     <li v-for="detail in details">{{ detail }}</li>
                 </ul>
-                <div v-for="variant in variants" :key="variant.variantId">
-                    <p>{{ variant.variantColor }}</p>
-                </div>
+                <div class="color-box" @mouseover="updateProduct(variant.variantImage)" :style="{ backgroundColor:variant.variantColor }" v-for="variant in variants" :key="variant.variantId"></div>
                 <div v-for="size in sizes">
                     <p>{{ size }}</p>
                 </div>
+
+                <button v-on:click="addToCart" :disabled="!inStock" :class="{ disabledButton: !inStock }">Add to cart</button>
+                <button v-on:click="removeFromCart">remove from cart</button>
+
             </div>
             <a v-bind:href="link"> {{ linkText }}</a>
         </div>
