@@ -29,9 +29,10 @@ Vue.component('product', {
 
             <div>
                 <product-tabs :shipping="shipping" :reviews="reviews"></product-tabs>
+            </div>
             <a v-bind:href="link"> {{ linkText }}</a>
         </div>`,
-    data(){
+    data() {
         return {
             product: "Socks",
             brand: "Vue Mastery",
@@ -80,23 +81,23 @@ Vue.component('product', {
         image() {
             return this.variants[this.selectedVariant].variantImage;
         },
-        inStock(){
+        inStock() {
             return this.variants[this.selectedVariant].variantQuantity
         },
-        onSale(){
+        onSale() {
             return this.variants[this.selectedVariant].variantSale;
         },
-        shipping(){
-            if(this.premium){
+        shipping() {
+            if (this.premium) {
                 return "free";
             }
-            else{
+            else {
                 return 2.99
             }
         }
-    } ,
-    mounted(){
-        eventBus.$on('review-submitted', productReview =>{ 
+    },
+    mounted() {
+        eventBus.$on('review-submitted', productReview => {
             this.reviews.push(productReview)
         })
     }
@@ -108,10 +109,10 @@ Vue.component('product-detail', {
         <li v-for="detail in details" :key="detail">{{ detail }}</li>
     </ul>
     `,
-    data(){
-        return {details: ['80% cotton', '20% polyester', 'Gender-neutral']}
+    data() {
+        return { details: ['80% cotton', '20% polyester', 'Gender-neutral'] }
     }
-    
+
 })
 
 Vue.component('product-review', {
@@ -162,35 +163,35 @@ Vue.component('product-review', {
     },
     methods: {
         onSubmit() {
-        if(this.name && this.review && this.rating) {
-            let productReview = {
-            name: this.name,
-            review: this.review,
-            rating: this.rating,
-            recommend: this.recommend
-        }
-        eventBus.$emit('review-submitted', productReview)
-        this.name = null
-        this.review = null
-        this.rating = null
-        this.recommend = null
-        } else {
-            if(!this.name) this.errors.push("Name required.")
-            if(!this.review) this.errors.push("Review required.")
-            if(!this.rating) this.errors.push("Rating required.")
+            if (this.name && this.review && this.rating) {
+                let productReview = {
+                    name: this.name,
+                    review: this.review,
+                    rating: this.rating,
+                    recommend: this.recommend
+                }
+                eventBus.$emit('review-submitted', productReview)
+                this.name = null
+                this.review = null
+                this.rating = null
+                this.recommend = null
+            } else {
+                if (!this.name) this.errors.push("Name required.")
+                if (!this.review) this.errors.push("Review required.")
+                if (!this.rating) this.errors.push("Rating required.")
             }
         }
     }
 })
 
 Vue.component('product-tabs', {
-    props:{
+    props: {
         reviews: {
             type: Array,
             required: false
         },
-        shipping:{
-            type:String,
+        shipping: {
+            type: String,
             required: true
         },
     },
@@ -207,6 +208,7 @@ Vue.component('product-tabs', {
                     <p>Rating: {{ review.rating }}</p>
                     <p>{{ review.review }}</p>
                     <p>{{ review.recommend }}</p>
+                    <button v-on:click="deleteReviews(review.name)">delete</button>
                 </li>
             </ul>
         </div>
@@ -224,11 +226,22 @@ Vue.component('product-tabs', {
     `,
     data() {
         return {
-            tabs: ['Reviews', 'Make a Review', 'Shipping' , 'Details'],
+            tabs: ['Reviews', 'Make a Review', 'Shipping', 'Details'],
             selectedTab: 'Reviews',
         }
+    },
+    methods:{
+        deleteReviews(id){
+            let index = this.reviews.findIndex(function(e) {
+                return e.name === id;
+            });
+            
+            if (index !== -1) {
+                this.reviews.splice(index, 1);
+            }  
+        }
     }
-    
+
 })
 
 let eventBus = new Vue()
@@ -241,13 +254,13 @@ let app = new Vue({
         cart: []
     },
     methods: {
-        updateCart(id){
+        updateCart(id) {
             this.cart.push(id);
         },
-        removeCart(id){
+        removeCart(id) {
             const index = this.cart.indexOf(id);
             if (index !== -1) {
-              this.cart.splice(index, 1);
+                this.cart.splice(index, 1);
             }
         }
     }
