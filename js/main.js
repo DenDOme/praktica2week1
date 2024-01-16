@@ -9,7 +9,7 @@ Vue.component('product', {
         <div class="product">
      
             <div class="product-image">
-                <img v-bind:alt="altText" v-bind:src="image"/>
+                <img id="img" v-bind:alt="altText" v-bind:src="image"/>
             </div>
      
             <div class="product-info">
@@ -256,6 +256,11 @@ let app = new Vue({
     methods: {
         updateCart(id) {
             this.cart.push(id);
+            const getImg = document.getElementById('img');
+            getImg.classList.add('animate');
+            setTimeout(() => {
+                getImg.classList.remove('animate');
+            }, 1000);
         },
         removeCart(id) {
             const index = this.cart.indexOf(id);
