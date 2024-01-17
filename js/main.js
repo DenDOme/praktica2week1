@@ -232,10 +232,11 @@ Vue.component('product-tabs', {
     },
     methods:{
         deleteReviews(id){
-            let index = this.reviews.find(function(e) {
-                return e === id;
+            console.log(id);
+            let index = this.reviews.findIndex(function(e) {
+                return (e.name == id.name && e.review == id.review && e.rating == id.rating && e.recommend == id.recommend);
             });
-            
+            console.log(index);
             if (index !== -1) {
                 this.reviews.splice(index, 1);
             }  
