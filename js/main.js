@@ -208,7 +208,7 @@ Vue.component('product-tabs', {
                     <p>Rating: {{ review.rating }}</p>
                     <p>{{ review.review }}</p>
                     <p>{{ review.recommend }}</p>
-                    <button v-on:click="deleteReviews(review.name)">delete</button>
+                    <button v-on:click="deleteReviews(review)">delete</button>
                 </li>
             </ul>
         </div>
@@ -232,8 +232,8 @@ Vue.component('product-tabs', {
     },
     methods:{
         deleteReviews(id){
-            let index = this.reviews.findIndex(function(e) {
-                return e.name === id;
+            let index = this.reviews.find(function(e) {
+                return e === id;
             });
             
             if (index !== -1) {
